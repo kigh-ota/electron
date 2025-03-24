@@ -724,6 +724,10 @@ void BaseWindow::SetContentProtection(bool enable) {
   return window_->SetContentProtection(enable);
 }
 
+bool BaseWindow::IsContentProtected() const {
+  return window_->IsContentProtected();
+}
+
 void BaseWindow::SetFocusable(bool focusable) {
   return window_->SetFocusable(focusable);
 }
@@ -1087,6 +1091,10 @@ void BaseWindow::SetAppDetails(const gin_helper::Dictionary& options) {
                                   relaunch_command, relaunch_display_name,
                                   window_->GetAcceleratedWidget());
 }
+
+bool BaseWindow::IsSnapped() const {
+  return window_->IsSnapped();
+}
 #endif
 
 #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX)
@@ -1261,6 +1269,7 @@ void BaseWindow::BuildPrototype(v8::Isolate* isolate,
       .SetMethod("isDocumentEdited", &BaseWindow::IsDocumentEdited)
       .SetMethod("setIgnoreMouseEvents", &BaseWindow::SetIgnoreMouseEvents)
       .SetMethod("setContentProtection", &BaseWindow::SetContentProtection)
+      .SetMethod("_isContentProtected", &BaseWindow::IsContentProtected)
       .SetMethod("setFocusable", &BaseWindow::SetFocusable)
       .SetMethod("isFocusable", &BaseWindow::IsFocusable)
       .SetMethod("setMenu", &BaseWindow::SetMenu)
@@ -1330,6 +1339,8 @@ void BaseWindow::BuildPrototype(v8::Isolate* isolate,
       .SetMethod("setIcon", &BaseWindow::SetIcon)
 #endif
 #if BUILDFLAG(IS_WIN)
+      .SetMethod("isSnapped", &BaseWindow::IsSnapped)
+      .SetProperty("snapped", &BaseWindow::IsSnapped)
       .SetMethod("hookWindowMessage", &BaseWindow::HookWindowMessage)
       .SetMethod("isWindowMessageHooked", &BaseWindow::IsWindowMessageHooked)
       .SetMethod("unhookWindowMessage", &BaseWindow::UnhookWindowMessage)

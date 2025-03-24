@@ -38,4 +38,3 @@ contextBridge.exposeInMainWorld('electron', {
     alert(`Uploaded file path was: ${path}`)
   }
 })
-```

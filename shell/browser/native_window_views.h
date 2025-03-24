@@ -116,6 +116,7 @@ class NativeWindowViews : public NativeWindow,
   double GetOpacity() const override;
   void SetIgnoreMouseEvents(bool ignore, bool forward) override;
   void SetContentProtection(bool enable) override;
+  bool IsContentProtected() const override;
   void SetFocusable(bool focusable) override;
   bool IsFocusable() const override;
   void SetMenu(ElectronMenuModel* menu_model) override;
@@ -129,6 +130,7 @@ class NativeWindowViews : public NativeWindow,
   bool IsMenuBarAutoHide() const override;
   void SetMenuBarVisibility(bool visible) override;
   bool IsMenuBarVisible() const override;
+  bool IsSnapped() const override;
   void SetBackgroundMaterial(const std::string& type) override;
 
   void SetVisibleOnAllWorkspaces(bool visible,

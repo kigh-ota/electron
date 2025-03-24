@@ -177,6 +177,7 @@ class BaseWindow : public gin_helper::TrackableObject<BaseWindow>,
   bool IsDocumentEdited() const;
   void SetIgnoreMouseEvents(bool ignore, gin_helper::Arguments* args);
   void SetContentProtection(bool enable);
+  bool IsContentProtected() const;
   void SetFocusable(bool focusable);
   bool IsFocusable() const;
   void SetMenu(v8::Isolate* isolate, v8::Local<v8::Value> menu);
@@ -251,6 +252,7 @@ class BaseWindow : public gin_helper::TrackableObject<BaseWindow>,
   bool SetThumbnailClip(const gfx::Rect& region);
   bool SetThumbnailToolTip(const std::string& tooltip);
   void SetAppDetails(const gin_helper::Dictionary& options);
+  bool IsSnapped() const;
 #endif
 
 #if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_LINUX)

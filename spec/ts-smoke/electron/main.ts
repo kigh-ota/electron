@@ -230,11 +230,12 @@ const dockMenu = Menu.buildFromTemplate([
     ]
   }
 ]);
-app.dock.setMenu(dockMenu);
-app.dock.setBadge('foo');
-const dockid = app.dock.bounce('informational');
-app.dock.cancelBounce(dockid);
-app.dock.setIcon('/path/to/icon.png');
+
+app.dock?.setMenu(dockMenu);
+app.dock?.setBadge('foo');
+const dockid = app.dock?.bounce('informational');
+app.dock?.cancelBounce(dockid);
+app.dock?.setIcon('/path/to/icon.png');
 
 app.setBadgeCount(app.getBadgeCount() + 1);
 
@@ -1177,7 +1178,7 @@ session.defaultSession.clearStorageData({ storages: ['shadercache', 'cachestorag
 // @ts-expect-error Invalid type value
 session.defaultSession.clearStorageData({ storages: ['wrong_path'] });
 
-session.defaultSession.clearStorageData({ quotas: ['syncable', 'temporary'] });
+session.defaultSession.clearStorageData({ quotas: ['temporary'] });
 // @ts-expect-error Invalid type value
 session.defaultSession.clearStorageData({ quotas: ['bad_type'] });
 

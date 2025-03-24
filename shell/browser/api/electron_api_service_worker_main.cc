@@ -5,9 +5,7 @@
 #include "shell/browser/api/electron_api_service_worker_main.h"
 
 #include <string>
-#include <unordered_map>
 #include <utility>
-#include <vector>
 
 #include "base/logging.h"
 #include "base/no_destructor.h"
@@ -29,6 +27,7 @@
 #include "shell/common/gin_helper/promise.h"
 #include "shell/common/node_includes.h"
 #include "shell/common/v8_util.h"
+#include "third_party/abseil-cpp/absl/container/flat_hash_map.h"
 
 namespace {
 
@@ -59,10 +58,9 @@ std::optional<content::ServiceWorkerVersionBaseInfo> GetLiveVersionInfo(
 namespace electron::api {
 
 // ServiceWorkerKey -> ServiceWorkerMain*
-typedef std::unordered_map<ServiceWorkerKey,
-                           ServiceWorkerMain*,
-                           ServiceWorkerKey::Hasher>
-    VersionIdMap;
+using VersionIdMap = absl::flat_hash_map<ServiceWorkerKey,
+                                         ServiceWorkerMain*,
+                                         ServiceWorkerKey::Hasher>;
 
 VersionIdMap& GetVersionIdMap() {
   static base::NoDestructor<VersionIdMap> instance;
@@ -283,6 +281,12 @@ GURL ServiceWorkerMain::ScopeURL() const {
   return version_info()->scope;
 }
 
+GURL ServiceWorkerMain::ScriptURL() const {
+  if (version_destroyed_)
+    return {};
+  return version_info()->script_url;
+}
+
 // static
 gin::Handle<ServiceWorkerMain> ServiceWorkerMain::New(v8::Isolate* isolate) {
   return gin::Handle<ServiceWorkerMain>();
@@ -331,6 +335,7 @@ void ServiceWorkerMain::FillObjectTemplate(
                  &ServiceWorkerMain::CountExternalRequestsForTest)
       .SetProperty("versionId", &ServiceWorkerMain::VersionID)
       .SetProperty("scope", &ServiceWorkerMain::ScopeURL)
+      .SetProperty("scriptURL", &ServiceWorkerMain::ScriptURL)
       .Build();
 }
 

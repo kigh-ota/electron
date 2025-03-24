@@ -20,7 +20,6 @@
 #include "content/public/browser/navigation_entry.h"
 #include "content/public/common/content_switches.h"
 #include "content/public/common/url_constants.h"
-#include "content/public/common/user_agent.h"
 #include "electron/grit/electron_resources.h"
 #include "net/base/net_errors.h"
 #include "net/socket/stream_socket.h"
@@ -139,7 +138,7 @@ bool DevToolsManagerDelegate::HasBundledFrontendResources() {
 }
 
 content::BrowserContext* DevToolsManagerDelegate::GetDefaultBrowserContext() {
-  return ElectronBrowserContext::From("", false);
+  return ElectronBrowserContext::GetDefaultBrowserContext();
 }
 
 }  // namespace electron

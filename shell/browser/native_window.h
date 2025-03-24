@@ -9,6 +9,7 @@
 #include <memory>
 #include <optional>
 #include <queue>
+#include <set>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -186,6 +187,7 @@ class NativeWindow : public base::SupportsUserData,
   virtual bool IsDocumentEdited() const;
   virtual void SetIgnoreMouseEvents(bool ignore, bool forward) = 0;
   virtual void SetContentProtection(bool enable) = 0;
+  virtual bool IsContentProtected() const = 0;
   virtual void SetFocusable(bool focusable) {}
   virtual bool IsFocusable() const;
   virtual void SetMenu(ElectronMenuModel* menu) {}
@@ -264,6 +266,8 @@ class NativeWindow : public base::SupportsUserData,
   virtual bool IsMenuBarAutoHide() const;
   virtual void SetMenuBarVisibility(bool visible) {}
   virtual bool IsMenuBarVisible() const;
+
+  virtual bool IsSnapped() const;
 
   // Set the aspect ratio when resizing window.
   [[nodiscard]] double aspect_ratio() const { return aspect_ratio_; }

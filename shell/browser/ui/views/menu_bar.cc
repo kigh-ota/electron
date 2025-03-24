@@ -35,7 +35,7 @@ MenuBar::MenuBar(NativeWindow* window, RootView* root_view)
     : background_color_(kDefaultColor), window_(window), root_view_(root_view) {
   const ui::NativeTheme* theme = root_view_->GetNativeTheme();
 #if BUILDFLAG(IS_WIN)
-  SetBackground(views::CreateThemedSolidBackground(ui::kColorMenuBackground));
+  SetBackground(views::CreateSolidBackground(ui::kColorMenuBackground));
 #endif
   RefreshColorCache(theme);
   UpdateViewColors();
@@ -206,7 +206,8 @@ void MenuBar::ViewHierarchyChanged(
     const views::ViewHierarchyChangedDetails& details) {
   views::AccessiblePaneView::ViewHierarchyChanged(details);
 #if BUILDFLAG(IS_WIN)
-  background_color_ = GetBackground()->get_color();
+  background_color_ =
+      GetBackground()->color().ConvertToSkColor(root_view_->GetColorProvider());
 #endif
 }
 
@@ -219,7 +220,8 @@ void MenuBar::RefreshColorCache(const ui::NativeTheme* theme) {
     disabled_color_ = gtk::GetFgColor(
         "GtkMenuBar#menubar GtkMenuItem#menuitem:disabled GtkLabel");
 #elif BUILDFLAG(IS_WIN)
-    background_color_ = GetBackground()->get_color();
+    background_color_ = GetBackground()->color().ConvertToSkColor(
+        root_view_->GetColorProvider());
 #endif
   }
 }
